@@ -8,6 +8,7 @@ import { buildConfig } from "payload/config";
 
 import Users from "./collections/Users";
 import Articles from "./collections/Articles";
+import handleArticleStateTransition from "./routes/articleState";
 
 export default buildConfig({
   admin: {
@@ -16,6 +17,13 @@ export default buildConfig({
   },
   editor: slateEditor({}),
   collections: [Users, Articles],
+  endpoints: [
+    {
+      path: "/articles/:id/state",
+      method: "post",
+      handler: handleArticleStateTransition,
+    },
+  ],
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
