@@ -1,28 +1,22 @@
-import { Badge } from "./components/ui/badge";
+"use client";
 
-async function getArticles() {
-  const res = await fetch(`${process.env.BACKEND_URL}/api/articles`, { cache: "no-store" });
-  const { docs } = await res.json();
-  return docs;
-}
+import ArticleState from "./components/state/ArticleState/ArticleState";
+import useArticles from "./hooks/useArticles";
 
-export default async function Home() {
-  const articles = await getArticles();
-
-  const title = articles?.[0]?.title;
-  const content = articles?.[0]?.content?.[0]?.children?.[0]?.text;
-  const state = articles?.[0]?.state;
-
-  const stateVariant = state === "published" ? "default" : state === "draft" ? "secondary" : "destructive";
+export default function Home() {
+  const { articles, loading, refetch } = useArticles();
+  const article = articles?.[0];
+  const title = article?.title ?? "Title";
+  const content = article?.content?.[0]?.children?.[0]?.text ?? "Content";
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen px-4 bg-gray-100 flex items-center justify-center">
       <main className="p-6 bg-white shadow-md rounded-md max-w-lg w-full">
-        <h1 className="text-2xl font-bold mb-4">{title ?? "Title"}</h1>
-        <p className="text-gray-700 mb-4">{content ?? "Content"}</p>
-        <div className="mt-4">
-          <Badge variant={stateVariant}>{state}</Badge>
-        </div>
+        <>
+          <h1 className="text-2xl font-bold mb-4">{title}</h1>
+          <p className="text-gray-700 mb-4">{content}</p>
+          {article && <ArticleState article={article} onStateChange={refetch} />}
+        </>
       </main>
     </div>
   );
