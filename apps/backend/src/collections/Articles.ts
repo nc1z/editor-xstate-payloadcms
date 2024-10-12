@@ -1,7 +1,18 @@
 import { CollectionConfig } from "payload/types";
+import handleArticleStateTransition from "../routes/articleState";
 
 const Articles: CollectionConfig = {
   slug: "articles",
+  access: {
+    read: () => true, // Makes read access public
+  },
+  endpoints: [
+    {
+      path: "/:id/state",
+      method: "post",
+      handler: handleArticleStateTransition,
+    },
+  ],
   labels: {
     singular: "Article",
     plural: "Articles",
