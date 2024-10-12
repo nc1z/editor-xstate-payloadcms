@@ -2,6 +2,8 @@
 
 This is a simple blog post editor spike for Finite State Machines. It emcompasses a shared definition of the article state machine between the frontend and the backend CMS.
 
+![transitions-state](https://github.com/user-attachments/assets/2e36da1f-6f08-4b6b-9764-2a810e3faa20)
+
 ## What's inside?
 
 This Turborepo includes the following packages/apps:
